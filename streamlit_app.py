@@ -31,16 +31,33 @@ In the meantime, below is an example of what you can do with just a few lines of
 """
 
 # OpenAI API key
-open_ai_api = "sk-proj-N7m3Hr6mhKZe8BzdhMQST3BlbkFJiw5H8yFX2bmP3WnhStzK"
+#open_ai_api = "sk-proj-N7m3Hr6mhKZe8BzdhMQST3BlbkFJiw5H8yFX2bmP3WnhStzK"
+open_ai_api="sk-proj-wx0fv6e1YqaSoTlUHmIQT3BlbkFJrCggP9CrXGlDXPzpNvSi"
 os.environ["OPENAI_API_KEY"] = open_ai_api
 
 # Streamlit application layout
 st.title("Momrah Butler")
+data_df=pd.read_csv('input.csv')
 
+st.write(f"{len(data_df)}")
+try:
+    # Create a SQLite connection
+    sqlite_conn = sqlite3.connect('your_database.db')
+
+    # Write the DataFrame to the SQLite database
+    data_df.to_sql('ai_outbound', sqlite_conn, if_exists='replace', index=False)
+
+    # Commit and close the connection
+    sqlite_conn.commit()
+except Exception as e:
+    print(f"An error occurred: {e}")
+finally:
+    sqlite_conn.close()
+    
 os.environ["OPENAI_API_KEY"] = open_ai_api
 db = SQLDatabase.from_uri("sqlite:///your_database.db")
-#print(db.dialect)
-#print(db.get_usable_table_names())
+print(db.dialect)
+print(db.get_usable_table_names())
 st.write(f"{db.get_usable_table_names()}")
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
@@ -101,30 +118,3 @@ st.write(f"{response}")
 st.write("\n\n")
 st.write(f"{arabic_response}")
 #st.write(f"Text entered: {text_input}")
-
-
-#num_points = st.slider("Number of points in alliswell123", 1, 10000, 1100)
-#num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
-
-#indices = np.linspace(0, 1, num_points)
-#theta = 2 * np.pi * num_turns * indices
-#radius = indices
-
-#x = radius * np.cos(theta)
-#y = radius * np.sin(theta)
-
-#df = pd.DataFrame({
-#    "x": x,
-#    "y": y,
-#    "idx": indices,
-#    "rand": np.random.randn(num_points),
-#})
-
-#st.altair_chart(alt.Chart(df, height=700, width=700)
-#    .mark_point(filled=True)
-#    .encode(
-#        x=alt.X("x", axis=None),
-#        y=alt.Y("y", axis=None),
-#        color=alt.Color("idx", legend=None, scale=alt.Scale()),
-#        size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
- #   ))
