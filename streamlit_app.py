@@ -17,7 +17,7 @@ from operator import itemgetter
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
-
+from config import api_key 
 
 
 """
@@ -53,7 +53,7 @@ except Exception as e:
     print(f"An error occurred: {e}")
 finally:
     sqlite_conn.close()
-    
+  
 os.environ["OPENAI_API_KEY"] = open_ai_api
 db = SQLDatabase.from_uri("sqlite:///your_database.db")
 print(db.dialect)
