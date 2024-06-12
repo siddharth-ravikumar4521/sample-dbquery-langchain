@@ -17,7 +17,7 @@ from operator import itemgetter
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
-from config import api_key 
+from config import open_ai_api_key
 
 
 """
