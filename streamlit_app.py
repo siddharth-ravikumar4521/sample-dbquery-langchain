@@ -18,7 +18,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from config import open_ai_api_key
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 
 """
@@ -53,8 +53,17 @@ except Exception as e:
     print(f"An error occurred: {e}")
 finally:
     sqlite_conn.close()
-  
-os.environ["OPENAI_API_KEY"] = open_ai_api_key
+secret='FXsa85E_-C92Yy5MTKOvZq2habZOZ_Rg4Q825VDPUrU='
+masked_key='gAAAAABmaXGkYa10tSB5eYllz78iOxwnTIwtK5yyP6fE2l0cLC9b75DiEKd7VXoKCKcJaNVaWoXQiyIG7XLPNZItdzkG9MAyU-xI_fcpaWX6vAoetceL3OCFVseNJUcbXJNOy79zy603nB5x30BI9N0Cn1rp0V3ZNw=='
+def demask_api_key(encrypted_key,key):
+    #key = load_key()
+    fernet = Fernet(key)
+    decrypted_key = fernet.decrypt(encrypted_key).decode()
+    return decrypted_key
+
+demasked_key = demask_api_key(masked_key,secret)
+print(demasked_key)
+os.environ["OPENAI_API_KEY"] = demasked_key
 db = SQLDatabase.from_uri("sqlite:///your_database.db")
 print(db.dialect)
 print(db.get_usable_table_names())
@@ -81,7 +90,7 @@ chain = (
     | answer
 )
 
-client = OpenAI(api_key=open_ai_api)
+client = OpenAI(api_key=demasked_key)
 
 def translate_text(text):
         response = client.chat.completions.create(
