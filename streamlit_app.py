@@ -31,9 +31,8 @@ In the meantime, below is an example of what you can do with just a few lines of
 """
 
 # OpenAI API key
-#open_ai_api = "sk-proj-N7m3Hr6mhKZe8BzdhMQST3BlbkFJiw5H8yFX2bmP3WnhStzK"
-open_ai_api="sk-proj-wx0fv6e1YqaSoTlUHmIQT3BlbkFJrCggP9CrXGlDXPzpNvSi"
-os.environ["OPENAI_API_KEY"] = open_ai_api
+
+os.environ["OPENAI_API_KEY"] = open_ai_api_key
 
 # Streamlit application layout
 st.title("Momrah Butler")
@@ -54,7 +53,7 @@ except Exception as e:
 finally:
     sqlite_conn.close()
   
-os.environ["OPENAI_API_KEY"] = open_ai_api
+os.environ["OPENAI_API_KEY"] = open_ai_api_key
 db = SQLDatabase.from_uri("sqlite:///your_database.db")
 print(db.dialect)
 print(db.get_usable_table_names())
