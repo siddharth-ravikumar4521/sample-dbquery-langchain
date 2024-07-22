@@ -31,7 +31,7 @@ st.markdown("## Data Overview")
 
 from langchain_community.utilities import SQLDatabase
 
-db = SQLDatabase.from_uri("sqlite:///mydatabase_afternoon5.db")
+db = SQLDatabase.from_uri("sqlite:///mydatabase_incidentshotspotscis.db")
 print(db.dialect)
 print(db.get_usable_table_names())
 db.run("SELECT count(*) FROM aioutbound_incidents")
